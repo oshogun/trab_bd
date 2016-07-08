@@ -12,5 +12,11 @@ SELECT DISTINCT p.NomePess, p.EmailPref, p.CodCurso, c.NomeCurso from Pessoa p, 
 -- Variação com join
 SELECT DISTINCT p.NomePess, p.EmailPref, p.CodCurso, c.NomeCurso from Pessoa p
     JOIN Curso c ON p.CodCurso = c.CodCurso 
-    WHERE (p.Sexo = 'F' OR c.CodCurso = 0010) AND c.CodCurso BETWEEN 0010 AND 0011;
+        WHERE (p.Sexo = 'F' OR c.CodCurso = 0010) AND c.CodCurso BETWEEN 0010 AND 0011;
 
+SELECT COUNT(distinct oe.Email), pe.NomePess, pp.PapelPessProj, pj.NomeProj FROM Projeto pj
+    JOIN ProjetoPessoa pp ON pj.CodProj = pp.CodProj
+    JOIN Pessoa pe on pp.NumeroCartao = pe.NumeroCartao
+    JOIN OutroEmail oe on pe.NumeroCartao = oe.NumeroCartao
+        WHERE pe.CodCurso BETWEEN 0010 AND 0100 OR ((pp.PapelPessProj = 'Membro' AND pe.Sexo = 'F') OR (pe.Sexo = 'M'))
+        GROUP BY pe.NomePess, pp.PapelPessProj, pj.NomeProj;
